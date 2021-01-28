@@ -18,10 +18,10 @@ namespace WarframeDiscordBot
         {
             string receivedData = await SupportMethods.MakeAPIRequest("https://api.warframestat.us/pc/en/fissures", message);//makes an api call to get current data
             if (receivedData == null) return;//makes sure that something is returned to avoid errors in deserialization
-            VoidFissureDefinition[] currentFissures;//initializing variable
+            definitions.FissureDefinitions[] currentFissures;//initializing variable
             try//try deserializing 
             {
-                currentFissures = JsonSerializer.Deserialize<VoidFissureDefinition[]>(receivedData);
+                currentFissures = JsonSerializer.Deserialize<definitions.FissureDefinitions[]>(receivedData);
             }
             catch (Exception e)//catches exeptions and lets the user now what happened
             {
@@ -30,7 +30,7 @@ namespace WarframeDiscordBot
                 return;
             }
             string messageToSend = @"```";//initializing variable
-            foreach (VoidFissureDefinition fissure in currentFissures)
+            foreach (definitions.FissureDefinitions fissure in currentFissures)
             {//adding each fissures data to the string 
                 messageToSend += fissure.tier + " " + fissure.missionType + " " + fissure.node +" " + fissure.enemy+ " " + fissure.eta + Environment.NewLine;
             }
@@ -41,10 +41,10 @@ namespace WarframeDiscordBot
         {
             string receivedData = await SupportMethods.MakeAPIRequest("https://api.warframestat.us/pc/en/invasions", message);//makes an api call to get current data
             if (receivedData == null) return;//makes sure that something is returned to avoid errors in deserialization
-            InvasionDefinition[] currentInvasions;//initializing variable
+            definitions.InvasionDefinitions[] currentInvasions;//initializing variable
             try//try deserializing 
             {
-                currentInvasions = JsonSerializer.Deserialize<InvasionDefinition[]>(receivedData);
+                currentInvasions = JsonSerializer.Deserialize<definitions.InvasionDefinitions[]>(receivedData);
             }
             catch (Exception e)//catches exeptions and lets the user now what happened
             {
@@ -53,7 +53,7 @@ namespace WarframeDiscordBot
                 return;
             }
             string messageToSend = @"```";//initializing variable
-            foreach (InvasionDefinition invasion in currentInvasions)
+            foreach (definitions.InvasionDefinitions invasion in currentInvasions)
             {//adding each invasion data to the string 
                 messageToSend += invasion.attackingFaction + " " + invasion.defendingFaction + " " + invasion.attackerReward.asString + " " + invasion.defenderReward.asString + " " + invasion.node + Environment.NewLine;
             }
@@ -64,10 +64,10 @@ namespace WarframeDiscordBot
         {
             string receivedData = await SupportMethods.MakeAPIRequest("https://api.warframestat.us/pc/en/events", message);//makes an api call to get current data
             if (receivedData == null) return;//makes sure that something is returned to avoid errors in deserialization
-            eventdefinition[] currentEvents;//initializing variable
+            definitions.EventDefinitions[] currentEvents;//initializing variable
             try//try deserializing 
             {
-                currentEvents = JsonSerializer.Deserialize<eventdefinition[]>(receivedData);
+                currentEvents = JsonSerializer.Deserialize<definitions.EventDefinitions[]>(receivedData);
             }
             catch (Exception e)//catches exeptions and lets the user now what happened
             {
@@ -76,15 +76,15 @@ namespace WarframeDiscordBot
                 return;
             }
             string messageToSend = @"```";//initializing variable
-            foreach (eventdefinition cevent in currentEvents)
+            foreach (definitions.EventDefinitions cevent in currentEvents)
             {//adding each fissures data to the string 
                 messageToSend += cevent.description + " ";
-                foreach(interimSteps interimSteps in cevent.interimSteps)
+                foreach(definitions.InterimSteps interimSteps in cevent.interimSteps)
                 {
                     messageToSend += interimSteps.goal + ":" + interimSteps.reward.asString + " ";
                 }
                 messageToSend += cevent.maximumScore + ":";
-                foreach (rewards reward in cevent.rewards)
+                foreach (definitions.Rewards reward in cevent.rewards)
                 {
                     messageToSend += reward.asString + " ";
                 }
