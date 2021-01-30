@@ -89,6 +89,9 @@ namespace WarframeDiscordBot
                 case "events":
                     await Executor.Events(message);
                     break;
+                case "alerts":
+                    await Executor.Alerts(message);
+                    break;
                 /*
                 case "prefix":
                     await Executor.Prefix(message, parameters);

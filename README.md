@@ -22,3 +22,7 @@ gets current invasions from warframestat.us and sends them into the channel in w
 <ins>[prefix]events</ins>
 
 gets current events from warframestat.us and sends them into the channel in which the command was writen.
+
+<ins>[prefix]alerts</ins>
+
+gets current alerts from warframestat.us and sends them into the channel in which the command was writen.

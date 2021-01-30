@@ -93,6 +93,30 @@ namespace WarframeDiscordBot
             await message.Channel.SendMessageAsync(messageToSend + @"```");//sends the generated string as a discord message
             return;
         }
+        public async Task Alerts(SocketMessage message)
+        {
+            string receivedData = await SupportMethods.MakeAPIRequest("https://api.warframestat.us/pc/en/alerts", message);//makes an api call to get current data
+            if (receivedData == null) return;//makes sure that something is returned to avoid errors in deserialization
+            definitions.AlertDefinitions[] currentAlerts;//initializing variable
+            try//try deserializing 
+            {
+                currentAlerts = JsonSerializer.Deserialize<definitions.AlertDefinitions[]>(receivedData);
+            }
+            catch (Exception e)//catches exeptions and lets the user now what happened
+            {
+                Console.WriteLine(e);
+                await message.Channel.SendMessageAsync("JSON error. please let me(actinoide#6637) know");
+                return;
+            }
+            string messageToSend = @"```";//initializing variable
+            foreach (definitions.AlertDefinitions alert in currentAlerts)
+            {//adding each fissures data to the string 
+                messageToSend += alert.eta + " " + alert.mission.faction + " " +alert.mission.type + " " + alert.mission.reward.asString + " " + alert.mission.minEnemyLevel + "-" + alert.mission.maxEnemyLevel + " " + alert.mission.node + " " + Environment.NewLine;
+            }
+            await message.Channel.SendMessageAsync(messageToSend + @"```");//sends the generated string as a discord message
+            return;
+
+        }
         public async Task Prefix(SocketMessage message,string[] parameters)
         {
             // this command is currently not in use
